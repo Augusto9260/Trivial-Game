@@ -1,45 +1,73 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import api from './src/services/api'
+import { useEffect, useState } from 'react';
+import styles from './styles';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+  const [questao, setQuestao] = useState('Conectando...');
+  const [perguntas, setPerguntas] = useState<string[]>([]);
+  const [respostaCorreta, setRespostaCorreta] = useState('');
+  const [opcaoSelecionada, setOpcaoSelecionada] = useState<string | null>(null);
+  
+  async function buscaDados(){
+    const dados = await api();
+  
+    if(dados && dados.results){
+      dados.results.map((item:any)=>{
+        setQuestao(item.question)
+        setRespostaCorreta(item.correct_answer);
+        setOpcaoSelecionada(null);
+        
+        const listaPerguntas = ([...item.incorrect_answers, item.correct_answer]);
+        setPerguntas(listaPerguntas)
+      })
+    }
+  }
+  useEffect(()=>{
+    buscaDados();
+  },[])
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <View style={styles.container}>
+        <View style={styles.viewTitulo}>
+          <Text style={styles.titulo}>Trivial Game</Text>
+        </View>
+        <View>
+          <View style={styles.viewQuestao}>
+            <Text style={styles.questao}>{questao}</Text>
+          </View>
+          {perguntas.map((item, index) => {
+            let corBotao = '#00aeff';
+            const Respondeu = opcaoSelecionada !== null;
+
+            if(Respondeu){
+              if(item === respostaCorreta){
+                corBotao = '#2E7D32'
+              }else if (item === opcaoSelecionada){
+                corBotao = '#C62828'
+              }
+            }
+            return <TouchableOpacity 
+            key={index}
+            style={[styles.botaoPergunta, {backgroundColor: corBotao}]}
+            onPress={() => setOpcaoSelecionada(item)}
+            disabled={Respondeu}>
+              <Text style={styles.textBotao}>{item}</Text>
+            </TouchableOpacity>
+          })}
+        </View>
+        <View style={styles.viewProximo}>
+          <TouchableOpacity
+          style={styles.botaoProximo}
+          onPress={() => buscaDados()}>
+            <Text style={styles.textProximo}>Proximo</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaProvider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
 export default App;
+

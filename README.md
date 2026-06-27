@@ -1,3 +1,11 @@
+## 📱 Como Testar o Jogo
+
+Você pode testar o **Trivial Game** direto no seu celular Android sem precisar configurar um ambiente de desenvolvimento!
+
+📥 **[Clique aqui para baixar o APK (Última Versão)](https://github.com/Augusto9260/Trivial-Game/releases/latest)**
+
+> **Nota:** Ao instalar, o seu Android pode exibir um aviso de "Fonte Desconhecida". Isso é normal para aplicativos instalados fora da Google Play Store. Pode prosseguir com a instalação com segurança.
+
 🌟 Trivial Game
 Primeira versão estável do Trivial Game, um jogo de perguntas e respostas dinâmico e competitivo construído para dispositivos Android.
 

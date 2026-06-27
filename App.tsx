@@ -3,6 +3,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import api from './src/services/api'
 import { useEffect, useState } from 'react';
 import styles from './styles';
+import update from './src/services/updateServices';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
   }
   useEffect(()=>{
     buscaDados();
+    update();
   },[])
   return (
     <SafeAreaProvider>

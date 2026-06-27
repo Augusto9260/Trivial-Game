@@ -19,7 +19,8 @@ Você não precisa compilar o código para testar! A versão de produção já e
 
 ## 🛠️ Tecnologias Utilizadas
 * **Framework:** React Native
-* **Linguagem:** JavaScript
+* **Linguagem Principal:** TypeScript 🟦
+* **Linguagem Base:** JavaScript
 * **Gerenciador de Dependências:** NPM / Yarn
 * **Automação de Build:** Gradle (Android)
 * **Design/UI:** Figma

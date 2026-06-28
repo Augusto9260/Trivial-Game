@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   botaoPergunta: {
     backgroundColor: '#00aeff',
-    margin: 8,
+    marginBottom: 32,
     borderRadius: 4,
     padding: 5,
     width: 'auto',

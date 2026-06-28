@@ -1,16 +1,17 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import api from './src/services/api'
 import { useEffect, useState } from 'react';
 import styles from './styles';
 import update from './src/services/updateServices';
 
-
-function App() {
+function TrivialGame(){
   const [questao, setQuestao] = useState('Conectando...');
   const [perguntas, setPerguntas] = useState<string[]>([]);
   const [respostaCorreta, setRespostaCorreta] = useState('');
   const [opcaoSelecionada, setOpcaoSelecionada] = useState<string | null>(null);
+
+  const insets = useSafeAreaInsets();
   
   async function buscaDados(){
     const dados = await api();
@@ -31,8 +32,7 @@ function App() {
     update();
   },[])
   return (
-    <SafeAreaProvider>
-      <View style={styles.container}>
+      <View style={[styles.container, {paddingTop: insets.top }]}>
         <View style={styles.viewTitulo}>
           <Text style={styles.titulo}>Trivial Game</Text>
         </View>
@@ -68,7 +68,14 @@ function App() {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaProvider>
+  )
+}
+
+function App() {
+  return (
+  <SafeAreaProvider>
+    <TrivialGame />
+  </SafeAreaProvider>
   );
 }
 export default App;
